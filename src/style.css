@@ -1,0 +1,89 @@
+:root{
+  --sea:#0e4d5c; --deep:#08303a; --foam:#e8f4f2;
+  --flag-yellow:#f2c230; --flag-red:#d6322b; --ink:#062027;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--deep);color:var(--foam);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;overflow:hidden}
+#game{position:fixed;inset:0;width:100%;height:100%;display:block}
+.hidden{display:none !important}
+
+/* 鏡頭與骨架小視窗 */
+#cam{position:fixed;right:16px;bottom:16px;width:220px;border-radius:10px;
+  border:3px solid var(--flag-yellow);transform:scaleX(-1);background:#000;z-index:5;display:none}
+#cam.on{display:block}
+#skeleton{position:fixed;right:19px;bottom:19px;width:214px;z-index:6;pointer-events:none;border-radius:8px}
+#poseHint{position:fixed;right:16px;bottom:16px;width:220px;z-index:7;pointer-events:none;
+  font-size:13px;line-height:1.5;padding:6px 10px;background:rgba(6,32,39,.75);border-radius:0 0 10px 10px;display:none}
+#poseHint.on{display:block}
+
+/* HUD */
+#hud{position:fixed;left:16px;top:16px;z-index:5;display:flex;gap:10px;flex-wrap:wrap;max-width:calc(100% - 200px)}
+.chip{background:rgba(6,32,39,.75);padding:8px 14px;border-radius:6px;font-size:15px;
+  border-left:5px solid var(--flag-yellow);backdrop-filter:blur(4px)}
+.chip b{font-size:20px;margin-left:6px}
+.chip .unit{font-size:13px;margin-left:3px;opacity:.8}
+.chip.warn{border-left-color:var(--flag-red)}
+.heelbar{position:relative;height:6px;width:110px;background:rgba(255,255,255,.2);border-radius:3px;margin-top:6px;overflow:hidden}
+.heelbar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--flag-yellow)}
+.heelbar s{position:absolute;top:0;bottom:0;width:2px;background:var(--flag-red)}
+
+/* 風向指示 */
+#wind{position:fixed;right:16px;top:16px;z-index:5;text-align:center;
+  background:rgba(6,32,39,.75);padding:10px 12px;border-radius:8px;width:132px}
+.dial{position:relative;width:96px;height:96px;margin:0 auto;border-radius:50%;
+  border:2px solid rgba(232,244,242,.35)}
+.dial .boatmark{position:absolute;left:50%;top:50%;width:14px;height:30px;margin:-15px 0 0 -7px;
+  background:var(--foam);clip-path:polygon(50% 0,100% 45%,85% 100%,15% 100%,0 45%)}
+.dial .arrow{position:absolute;inset:0;transition:transform .2s linear}
+.dial .arrow span{position:absolute;left:50%;top:-2px;margin-left:-9px;width:18px;height:40px;
+  background:var(--flag-yellow);clip-path:polygon(0 0,100% 0,100% 45%,50% 100%,0 45%)}
+.wlabel{font-size:13px;margin-top:6px;line-height:1.5}
+.wlabel b{font-size:17px}
+#gustLabel{color:var(--flag-yellow);font-weight:700}
+
+/* 下一個浮標方向 */
+#targetArrow{position:fixed;z-index:6;width:64px;height:64px;margin:-32px 0 0 -32px;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;flex-direction:column}
+#targetArrow span{font-size:34px;color:var(--flag-yellow);text-shadow:0 0 8px rgba(0,0,0,.6);display:block}
+#targetArrow em{font-style:normal;white-space:nowrap;font-size:13px;font-weight:700;background:rgba(6,32,39,.75);padding:1px 6px;border-radius:4px}
+
+/* 提示框 */
+#prompt{position:fixed;left:50%;top:18%;transform:translateX(-50%);z-index:7;text-align:center;
+  background:rgba(6,32,39,.85);padding:16px 26px;border-radius:6px;font-size:22px;font-weight:700;
+  border-bottom:5px solid var(--flag-yellow);max-width:90%}
+#prompt small{display:block;font-size:15px;font-weight:400;margin-top:6px;opacity:.85}
+.bar{height:10px;background:rgba(255,255,255,.2);border-radius:5px;margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--flag-yellow)}
+
+/* 畫質按鈕與 FPS */
+#qualityBtn{position:fixed;left:16px;bottom:16px;z-index:8;font:inherit;font-size:14px;font-weight:700;
+  padding:8px 14px;border:none;border-radius:6px;cursor:pointer;background:rgba(6,32,39,.8);color:var(--foam);
+  border-left:5px solid var(--flag-yellow)}
+#qualityBtn:focus-visible{outline:3px solid var(--flag-yellow)}
+#fps{position:fixed;left:16px;bottom:56px;z-index:8;font-size:12px;opacity:.7}
+
+/* 卡片 */
+#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;
+  background:rgba(8,48,58,.55);backdrop-filter:blur(2px)}
+.card{max-width:600px;width:calc(100% - 40px);max-height:calc(100% - 40px);overflow:auto;background:var(--foam);color:var(--ink);
+  padding:32px;border-radius:4px;border-top:14px solid var(--flag-red);box-shadow:0 0 0 6px var(--flag-yellow)}
+.card h1{font-size:34px;font-weight:900;margin-bottom:12px}
+.card p{line-height:1.8;margin-bottom:12px}
+.card ul{margin:0 0 16px 20px;line-height:1.8}
+.card button{font:inherit;font-weight:700;font-size:18px;padding:12px 24px;border:none;cursor:pointer;
+  background:var(--flag-red);color:#fff;border-radius:4px;margin-right:8px;margin-top:6px}
+.card button.alt{background:var(--sea)}
+.card button:disabled{opacity:.6;cursor:wait}
+.card button:focus-visible{outline:4px solid var(--flag-yellow);outline-offset:2px}
+.card .quality{margin:4px 0 14px;font-size:15px}
+.card .quality label{margin-right:14px;cursor:pointer}
+.card table{border-collapse:collapse;margin:0 0 14px;font-size:15px}
+.card td{padding:3px 14px 3px 0}
+
+@media (max-width:640px){
+  #hud{max-width:calc(100% - 32px)}
+  #wind{top:auto;bottom:16px;right:auto;left:16px}
+  #qualityBtn{bottom:auto;top:auto;left:auto;right:16px;bottom:200px}
+  #cam,#skeleton,#poseHint{width:140px}
+}

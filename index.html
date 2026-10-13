@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>揚帆出航｜體感帆船 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+<canvas id="game"></canvas>
+<video id="cam" autoplay playsinline muted></video>
+<canvas id="skeleton"></canvas>
+<div id="poseHint"></div>
+
+<div id="hud" class="hidden">
+  <div class="chip">時間<b id="t">0.0</b></div>
+  <div class="chip">浮標<b id="b">0/3</b></div>
+  <div class="chip">船速<b id="v">0.0</b><span class="unit">節</span></div>
+  <div class="chip">帆<b id="trim">—</b></div>
+  <div class="chip" id="heelChip">側傾<b id="heel">0°</b>
+    <div class="heelbar"><i id="heelbar"></i><s id="heelmark"></s></div>
+  </div>
+</div>
+
+<div id="wind" class="hidden">
+  <div class="dial">
+    <div class="boatmark"></div>
+    <div class="arrow" id="windArrow"><span></span></div>
+  </div>
+  <div class="wlabel">風速 <b id="windSpeed">0</b> 節<br><span id="gustLabel"></span></div>
+</div>
+
+<div id="targetArrow" class="hidden"><span>▲</span><em id="targetDist"></em></div>
+
+<div id="prompt" class="hidden"><span id="ptext"></span><small id="psub"></small><div class="bar"><i id="pbar"></i></div></div>
+
+<button id="qualityBtn" title="切換畫質">畫質：高</button>
+<div id="fps"></div>
+
+<div id="panel"><div class="card" id="card"></div></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
